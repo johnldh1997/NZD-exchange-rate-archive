@@ -2,8 +2,8 @@ name: Fetch Exchange Rates
 
 on:
   schedule:
-    # Runs every 4 hours (00:00, 04:00, 08:00, 12:00, 16:00, 20:00 UTC)
-    - cron: "0 */4 * * *"
+    # Runs every 4 hours (00:00, 04:00, 08:00, 12:00, 16:00, 20:00)
+    - cron: "0 20,0,4,8 * * 0-4"
   workflow_dispatch: # also allows manual trigger from GitHub UI
 
 jobs:
