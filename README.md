@@ -10,8 +10,11 @@ Over time, this builds a clean history of exchange rate data that can be used fo
 
 ## Tech Stack
 **Python**: Core scripting language.
+
 **gspread & Google Auth**: For securely connecting to and writing data into Google Sheets.
+
 **ExchangeRate-API**: Provides the live currency data.
+
 **GitHub Actions**: Handles the automation and runs the script on a schedule.
 
 ## Data Sample
@@ -22,6 +25,9 @@ I am currently working on connecting this live Google Sheet dataset directly to 
 
 ### Planned Dashboard Features:
 **Interactive Historical Trends:** Visualising rate fluctuations over days, weeks, and months with line charts.
+
 **Moving Averages:** Calculating 7-day and 30-day moving averages to smooth out minor daily volatility and show true direction.
+
 **Daily High/Low Callouts:** Cards displaying the highest and lowest exchange rates recorded in the current month.
+
 **Currency Comparison Matrix:** A quick-glance view comparing the percentage change of USD, AUD, and KRW against the NZD over the same period.
