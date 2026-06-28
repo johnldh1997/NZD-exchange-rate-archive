@@ -51,7 +51,7 @@ def get_sheet():
 
 def append_rates(sheet, rates: dict):
     nzst = timezone(timedelta(hours=12))  # NZST (UTC+12), change to 13 in summer
-    timestamp = datetime.now(nzst).strftime("%Y-%m-%d %H:%M:%S NZST")
+    timestamp = datetime.now(nzst).strftime("%Y-%m-%d %H:%M:%S")
     row = [
         timestamp,
         rates["USD"],
