@@ -1,6 +1,6 @@
 import os
 import requests
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 import gspread
 from google.oauth2.service_account import Credentials
 import json
@@ -44,13 +44,14 @@ def get_sheet():
     except gspread.exceptions.WorksheetNotFound:
         sheet = spreadsheet.add_worksheet(title="Rates", rows=10000, cols=10)
         # Write header row
-        sheet.append_row(["Timestamp (UTC)", "NZD→USD", "NZD→AUD", "NZD→KRW"])
+        sheet.append_row(["Timestamp (NZST)", "NZD→USD", "NZD→AUD", "NZD→KRW"])
 
     return sheet
 
 
 def append_rates(sheet, rates: dict):
-    timestamp = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S")
+    nzst = timezone(timedelta(hours=12))  # NZST (UTC+12), change to 13 in summer
+timestamp = datetime.now(nzst).strftime("%Y-%m-%d %H:%M:%S NZST")
     row = [
         timestamp,
         rates["USD"],
