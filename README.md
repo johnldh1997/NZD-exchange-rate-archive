@@ -2,7 +2,7 @@
 A Python script that tracks NZD exchange rates (USD, AUD, KRW) every 4 hours and logs them to a Google Sheet. It runs entirely in the cloud via GitHub Actions, so it doesn't need a local machine running 24/7.
 
 ## What It Does
-Every 4 hours on week days during NZ business hours, the automation:
+Every 8am(NZST) from Monday to Friday, the automation:
 1. Hits a live exchange rate API to grab the latest NZD rates for USD, AUD, and KRW.
 2. Appends a new timestamped row to a Google Sheet.
 3. Runs automatically 24/7 in the cloud.
