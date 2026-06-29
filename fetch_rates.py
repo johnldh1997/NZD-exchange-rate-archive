@@ -19,16 +19,20 @@ SCOPES = [
 
 # ── Fetch rates ───────────────────────────────────────────────────────────────
 def fetch_rates() -> dict:
-    url = f"https://v6.exchangerate-api.com/v6/{EXCHANGERATE_API_KEY}/latest/{BASE_CURRENCY}"
+    url = "https://api.frankfurter.app/latest?from=NZD&to=USD,AUD"
     response = requests.get(url, timeout=10)
     response.raise_for_status()
     data = response.json()
+    rates = data["rates"]
 
-    if data["result"] != "success":
-        raise RuntimeError(f"API error: {data.get('error-type', 'unknown')}")
+    # Frankfurter doesn't have KRW, so fetch it separately
+    krw_url = "https://open.er-api.com/v6/latest/NZD"
+    krw_response = requests.get(krw_url, timeout=10)
+    krw_response.raise_for_status()
+    krw_data = krw_response.json()
+    rates["KRW"] = krw_data["rates"]["KRW"]
 
-    rates = data["conversion_rates"]
-    return {currency: rates[currency] for currency in TARGET_CURRENCIES}
+    return rates
 
 
 # ── Write to Google Sheets ────────────────────────────────────────────────────
