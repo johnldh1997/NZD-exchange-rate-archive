@@ -1,6 +1,7 @@
 import os
 import requests
-from datetime import datetime, timezone, timedelta
+from datetime import datetime
+from zoneinfo import ZoneInfo
 import gspread
 from google.oauth2.service_account import Credentials
 import json
@@ -12,6 +13,7 @@ SPREADSHEET_ID = os.environ["SPREADSHEET_ID"]
 
 BASE_CURRENCY = "NZD"
 TARGET_CURRENCIES = ["USD", "AUD", "KRW"]
+NZ_TZ = ZoneInfo("Pacific/Auckland")  # auto-handles NZST/NZDT, no manual offset needed
 
 SCOPES = [
     "https://www.googleapis.com/auth/spreadsheets",
@@ -48,14 +50,13 @@ def get_sheet():
     except gspread.exceptions.WorksheetNotFound:
         sheet = spreadsheet.add_worksheet(title="Rates", rows=10000, cols=10)
         # Write header row
-        sheet.append_row(["Timestamp (NZST)", "NZD→USD", "NZD→AUD", "NZD→KRW"])
+        sheet.append_row(["Timestamp (NZ Time)", "NZD→USD", "NZD→AUD", "NZD→KRW"])
 
     return sheet
 
 
 def append_rates(sheet, rates: dict):
-    nzst = timezone(timedelta(hours=12))  # NZST (UTC+12), change to 13 in summer
-    timestamp = datetime.now(nzst).strftime("%Y-%m-%d %H:%M:%S")
+    timestamp = datetime.now(NZ_TZ).strftime("%Y-%m-%d %H:%M:%S %Z")
     row = [
         timestamp,
         rates["USD"],
@@ -68,7 +69,7 @@ def append_rates(sheet, rates: dict):
 
 # ── Main ──────────────────────────────────────────────────────────────────────
 def main():
-    print(f"Fetching NZD exchange rates at {datetime.now(timezone.utc).isoformat()} UTC...")
+    print(f"Fetching NZD exchange rates at {datetime.now(NZ_TZ).strftime('%Y-%m-%d %H:%M:%S %Z')}...")
     rates = fetch_rates()
     print(f"  NZD → USD: {rates['USD']}")
     print(f"  NZD → AUD: {rates['AUD']}")
