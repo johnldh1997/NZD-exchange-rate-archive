@@ -69,7 +69,7 @@ def append_rates(sheet, rates: dict):
 
 # ── Main ──────────────────────────────────────────────────────────────────────
 def main():
-    print(f"Fetching NZD exchange rates at {datetime.now(NZ_TZ).strftime('%Y-%m-%d %H:%M:%S %Z')}...")
+    print(f"Fetching NZD exchange rates at {datetime.now(NZ_TZ).strftime('%Y-%m-%d %H:%M')}...")
     rates = fetch_rates()
     print(f"  NZD → USD: {rates['USD']}")
     print(f"  NZD → AUD: {rates['AUD']}")
