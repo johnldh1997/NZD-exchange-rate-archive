@@ -56,7 +56,7 @@ def get_sheet():
 
 
 def append_rates(sheet, rates: dict):
-    timestamp = datetime.now(NZ_TZ).strftime("%Y-%m-%d %H:%M:%S %Z")
+    timestamp = datetime.now(NZ_TZ).strftime("%Y-%m-%d %H:%M")
     row = [
         timestamp,
         rates["USD"],
