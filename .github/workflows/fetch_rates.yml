@@ -2,8 +2,8 @@ name: Fetch Exchange Rates
 
 on:
   schedule:
-    # Runs on 8am (NZST), Monday through Friday
-    - cron: "0 8 * * 1-5"
+    - cron: "0 19 * * 0-4"  # ~8am NZDT, Mon-Fri NZ time (Sun-Thu UTC)
+    - cron: "0 20 * * 0-4"  # ~8am NZST, Mon-Fri NZ time (Sun-Thu UTC)
   workflow_dispatch: # also allows manual trigger from GitHub UI
   push:
     branches:
@@ -12,6 +12,8 @@ on:
 jobs:
   fetch-rates:
     runs-on: ubuntu-latest
+    env:
+      TZ: Pacific/Auckland # runner's local clock follows NZ time (handles DST automatically)
 
     steps:
       - name: Checkout repo
